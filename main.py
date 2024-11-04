@@ -2,6 +2,8 @@ import random
 from run_modele import model_to_test
 import torch
 from tqdm import tqdm
+import json
+from pathlib import Path
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -34,7 +36,21 @@ list_batch_size = [16, 32, 64, 128]
 nb_axes_min = 6
 nb_axes_max = 30
 save_folder = 'piche'
-time_run = 30
+time_run = 10
+
+
+int_parameter = {
+    "lr_min":lr_min,
+    "list_batch_size":list_batch_size,
+    "nb_axes_min":nb_axes_min,
+    "nb_axes_max":nb_axes_max,
+    "time_run":time_run
+}
+
+Path('results/' + save_folder).mkdir(parents=True, exist_ok=True)  # Creation du dossier de result
+with open('results/' + save_folder + "/param_simu.json", "w") as file:
+    json.dump(search_param, file, indent=4)
+    json.dump(int_parameter, file, indent=4)
 
 
 
